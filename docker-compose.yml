@@ -1,0 +1,29 @@
+services:
+  gist-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gist-api
+    ports:
+      - "9050:9000"
+      - "9052:9002"
+    env_file:
+      - .env
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - gist_network
+    volumes:
+      - uploads:/app/uploads
+    entrypoint: ["./entrypoint.sh"] 
+
+volumes:
+  uploads:
+
+networks:
+  gist_network:
+    external: true
